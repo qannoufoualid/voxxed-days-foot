@@ -17,6 +17,7 @@ import { ErrorListComponent } from './error-list/error-list.component';
 import { UtilsService } from './shared/services/utils.service';
 import { CanActivateViaAuthGuard } from './shared/services/can-activate-via-auth-guard.service';
 import { MappingConfigurationService } from './shared/services/mapping-configuration.service';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 const appRoutes: Routes = [
   {
@@ -57,7 +58,8 @@ const appRoutes: Routes = [
     AdminHeaderComponent,
     AdminScoreListComponent,
     AdminPlayersComponent,
-    ErrorListComponent
+    ErrorListComponent,
+    SignUpComponent
   ],
   imports: [
     RouterModule.forRoot(

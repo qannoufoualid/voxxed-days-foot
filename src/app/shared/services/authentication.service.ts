@@ -22,7 +22,7 @@ export class AuthenticationService implements OnDestroy {
     
     }
  
-    public authenticate(user : User, callback: () => void, errorCallback : (errors : Data[]) => void){
+    public authenticate(user : User, params : any[], callback: () => void, errorCallback : (errors : Data[]) => void){
 
         this.serverSocket.connect(user);
 
