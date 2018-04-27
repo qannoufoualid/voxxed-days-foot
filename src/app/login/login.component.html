@@ -1,0 +1,31 @@
+<div class="container">
+  <div [hidden]="submitted">
+    <h1>Login</h1>
+    <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+      <div class="form-group">
+        <label for="login">Name</label>
+        <input type="text" class="form-control" id="login"
+               required
+               [(ngModel)]="user.login" name="login"
+               #login="ngModel">
+        <div [hidden]="login.valid || login.pristine"
+               class="alert alert-danger">
+          Login is required
+        </div>
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password"
+               required
+               [(ngModel)]="user.password" name="password"
+               #password="ngModel" >
+        <div [hidden]="password.valid || password.pristine"
+             class="alert alert-danger">
+          Password is required
+        </div>
+      </div>
+ 
+      <button type="submit" class="btn btn-success" >Submit</button>
+      <app-error-list [errors]="errors"></app-error-list>
+    </form>
+  </div>
+</div>
+

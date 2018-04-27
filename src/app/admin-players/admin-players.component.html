@@ -1,0 +1,16 @@
+<table class="table table-striped table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Pseudonym</th>
+      <th scope="col">Add Life</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let player of players">
+          <td>
+            {{player.pseudo}}
+          </td>
+          <td><button class="btn-success">+</button></td>
+        </tr>
+  </tbody>
+</table>
