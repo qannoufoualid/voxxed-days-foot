@@ -21,8 +21,8 @@ export class MappingConfigurationService {
             {
                 let m :  Message = JSON.parse(message);
                 if(m.action === Action.GET_MAPPING_CONFIGURATION_RESPONSE)
-                    if(m.status === "SUCCEED"){
-                      this._config = m.data[0].value;
+                    if(m.status === Status.SUCCEED){
+                      this._config = JSON.parse(m.data[0].value);
                     }
                     else{
                       console.log(m.status);
@@ -36,7 +36,8 @@ export class MappingConfigurationService {
    }
 
    getActionName(action : Action) : string {
-     return this.config.actions[action];
+     let actions = this.config.actions;
+     return actions[action];
    }
 
    getStatusName(status : Status) : string {

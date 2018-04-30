@@ -22,9 +22,13 @@ export class AuthenticationService implements OnDestroy {
     
     }
  
-    public authenticate(user : User, params : any[], callback: () => void, errorCallback : (errors : Data[]) => void){
+    public authenticate(user : User, callback: () => void, errorCallback : (errors : Data[]) => void){
 
-        this.serverSocket.connect(user);
+        this.serverSocket.connect();
+        let m : Message = new Message();
+        m.action = Action.AUTHENTICATE;
+        m.data.push(new Data("user", user));
+        this.serverSocket.send(JSON.stringify(m));
 
         if(this.socketSubscription==null)
         this.socketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {

@@ -2,8 +2,13 @@ import { Data } from "./data";
 
 export class Message {
 
-    public status: string;
-    public action: string;
-    public data: Data[];
+    status: string;
+    action: string;
+    data: Data[];
 
+    constructor(status? : string, action?: string, data?: Data[]) {
+        this.status = status;
+        this.action = action;
+        this.data = data;
+    }
 }

@@ -18,6 +18,9 @@ import { UtilsService } from './shared/services/utils.service';
 import { CanActivateViaAuthGuard } from './shared/services/can-activate-via-auth-guard.service';
 import { MappingConfigurationService } from './shared/services/mapping-configuration.service';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { AlertComponent } from './alert/alert.component';
+import { AlertService } from './shared/services/alert.service';
+import { SignUpService } from './shared/services/sign-up.service';
 
 const appRoutes: Routes = [
   {
@@ -36,6 +39,10 @@ const appRoutes: Routes = [
         component: AdminPlayersComponent,
       }
     ]
+  },
+  {
+    path: 'sign-up',
+    component: SignUpComponent
   },
   {
     path: 'login',
@@ -59,7 +66,8 @@ const appRoutes: Routes = [
     AdminScoreListComponent,
     AdminPlayersComponent,
     ErrorListComponent,
-    SignUpComponent
+    SignUpComponent,
+    AlertComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -75,7 +83,9 @@ const appRoutes: Routes = [
     AdminService,
     UtilsService,,
     MappingConfigurationService,
-    CanActivateViaAuthGuard
+    CanActivateViaAuthGuard,
+    SignUpService,
+    AlertService
   ],
   bootstrap: [AppComponent]
 })

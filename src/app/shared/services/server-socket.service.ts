@@ -21,27 +21,29 @@ export class ServerSocketService implements OnDestroy {
   constructor() {
   }
 
-  public connect(user : User) {
+  public connect() {
     
     // Using share() causes a single websocket to be created when the first
     // observer subscribes. This socket is shared with subsequent observers
     // and closed when the observer count falls to zero.
-    let str : string = "?login="+user.login+"&password="+user.password;
 
     this.messages = websocketConnect(
-      this.url+str,
+      this.url,
       this.inputStream = new QueueingSubject<string>()
     ).messages.share();
+
+    
    
     // the websocket connection is created lazily when the messages observable is
     // subscribed to
     this.socketSubscription = this.messages.subscribe((message: string) => {
-       console.log(message);
+        console.log("<--- Recieved : "+message);
         this.receivedMessage.next(message);
     });
   }
 
   public send(message: string):void {
+    console.log("---> Sending : "+message);
     this.inputStream.next(message)
   }
 
