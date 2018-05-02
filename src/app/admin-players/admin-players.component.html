@@ -1,16 +1,35 @@
+<div class="container">
+    <div class="row">
+      <div class="col-sm">
+          <label for="search">Rechercher :</label>
+      </div>
+      <div class="col-sm">
+          <input class="form-control" type="text" name="search" [(ngModel)]="filter">
+      </div>
+    </div>
+  </div>
+
 <table class="table table-striped table-dark">
   <thead>
     <tr>
-      <th scope="col">Pseudonym</th>
+      <th scope="col">Email</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
       <th scope="col">Add Life</th>
     </tr>
   </thead>
   <tbody>
-      <tr *ngFor="let player of players">
+      <tr *ngFor="let player of players | filter:filter">
           <td>
-            {{player.pseudo}}
+            {{player.mail}}
           </td>
-          <td><button class="btn-success">+</button></td>
+          <td>
+            {{player.firstName}}
+          </td>
+          <td>
+            {{player.lastName}}
+          </td>
+          <td><button class="btn-success" (click)='setMaxHealth(player.mail)'>+</button></td>
         </tr>
   </tbody>
 </table>

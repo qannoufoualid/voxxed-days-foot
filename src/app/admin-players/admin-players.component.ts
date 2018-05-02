@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Player } from '../bo/player';
 import { AdminService } from '../shared/services/admin.service';
+import { ServerSocketService } from '../shared/services/server-socket.service';
+import { Action } from '../bo/action.enum';
+import { Message } from '../bo/message';
+import { Subscription } from 'rxjs';
+import { UtilsService } from '../shared/services/utils.service';
+import { MappingConfigurationService } from '../shared/services/mapping-configuration.service';
+import { Status } from '../bo/status.enum';
+import { AlertService } from '../shared/services/alert.service';
 
 /**
  * Component that handles the list of players.
@@ -11,17 +19,44 @@ import { AdminService } from '../shared/services/admin.service';
   styleUrls: ['./admin-players.component.css']
 })
 export class AdminPlayersComponent implements OnInit {
-
+    
   players : Player[];
-  
-  constructor(private adminService: AdminService) {
+  private socketSubscription: Subscription;
+  items = [];
+  itemCount = 0;
+
+  constructor(private alertService : AlertService,private adminService: AdminService, private serverSocket : ServerSocketService, private utilsService : UtilsService, private mappingConfigurationService : MappingConfigurationService) {
     this.adminService.getPlayers().subscribe( players => {
         this.players = players;
     });
   }
 
-
   ngOnInit() {
+  }
+
+  setMaxHealth(mail : string){
+
+    let m : Message = new Message(null, Action.SET_MAX_HEALTH, {"maxHealth": 5});
+    this.serverSocket.send(m);
+
+    if(this.socketSubscription==null)
+        this.socketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
+             
+            if(this.utilsService.isJson(message) && message != null)
+            {
+                let m :  Message = JSON.parse(message);
+                let action = this.mappingConfigurationService.getActionName(Action.SET_MAX_HEALTH_RESPONSE);
+                let isLoaded = this.mappingConfigurationService.isLoaded();
+                if(isLoaded && (m.action === action))
+                    if(m.status === Status.SUCCEED){
+                           this.alertService.success("Life added successfully to "+m.data.mail);
+                    }
+                    else{
+                        this.alertService.success("Problem :  "+m.data.error);
+                    }
+            }
+        });
+
   }
 
 }

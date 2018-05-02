@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription'
 
 import { AuthenticationService } from '../shared/services/authentication.service'
 import { User } from '../bo/user';
-import { Data } from '../bo/data';
+import { AlertService } from '../shared/services/alert.service';
 
 /**
  * Component of login
@@ -15,12 +15,10 @@ import { Data } from '../bo/data';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  private errors: Data[] = [] ;
   private socketSubscription: Subscription;
   user : User = new User();
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) {
+  constructor(private authenticationService: AuthenticationService, private router: Router, private alertService : AlertService) {
     
   }
 
@@ -32,25 +30,21 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  onSubmit() { 
+  login() { 
 
     this.authenticationService.authenticate(this.user,
-      () =>{
+      (message) =>{
         // store username and jwt token in local storage to keep user logged in between page refreshes
         //TODO Token
         localStorage.setItem('currentUser', JSON.stringify(this.user));
+        localStorage.setItem('token', message.token);
         //Route the user to the admin page
         this.router.navigate(['/admin/score']);
       },
       err => {
         //Display errors.
-        this.errors = err;
+        this.alertService.error(err);
       }
     );
-    
    }
-
-
-
-
 }

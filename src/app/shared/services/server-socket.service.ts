@@ -9,6 +9,7 @@ import Connection from 'rxjs-websockets'
 import 'rxjs/add/operator/share'
 import { Player } from '../../bo/player';
 import { User } from '../../bo/user';
+import { Message } from '../../bo/message';
 
 @Injectable()
 export class ServerSocketService implements OnDestroy {
@@ -32,8 +33,6 @@ export class ServerSocketService implements OnDestroy {
       this.inputStream = new QueueingSubject<string>()
     ).messages.share();
 
-    
-   
     // the websocket connection is created lazily when the messages observable is
     // subscribed to
     this.socketSubscription = this.messages.subscribe((message: string) => {
@@ -42,9 +41,13 @@ export class ServerSocketService implements OnDestroy {
     });
   }
 
-  public send(message: string):void {
-    console.log("---> Sending : "+message);
-    this.inputStream.next(message)
+  public send(message: Message):void {
+    console.log(localStorage);
+    let token = localStorage.getItem('token');
+    message.token = token;
+    console.log("---> Sending : ");
+    console.log(message);
+    this.inputStream.next(JSON.stringify(message))
   }
 
   public disconnect(){

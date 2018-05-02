@@ -21,11 +21,7 @@ export class MappingConfigurationService {
                 let m :  Message = JSON.parse(message);
                 if(m.action === Action.GET_MAPPING_CONFIGURATION_RESPONSE)
                     if(m.status === Status.SUCCEED){
-                      let firstData = m.data[0];
-                      this._config = JSON.parse(firstData.value);
-                    }
-                    else{
-                      console.log(m.status);
+                      this._config = m.data;
                     }
             }
         });

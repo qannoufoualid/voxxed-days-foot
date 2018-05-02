@@ -10,7 +10,8 @@ export class Player{
 	private _health: number,
 	private _maxHealth: number,
 	private _score: number,
-	private _games: number) {}
+    private _games: number,
+    private _rank : number) {}
 
     get mail() : string{
         return this._mail;
@@ -67,15 +68,24 @@ export class Player{
     set games(games : number){
         this._games = games;
     }
+    get rank() : number{
+        return this._rank;
+    }
+
+    set rank(rank : number){
+        this._rank = rank;
+    }
 
     toJSON(){
         return {
+            mail : this._mail,
             firstName : this._firstName,
             lastName : this._lastName,
             health : this._health,
             maxHealth : this._maxHealth,
             score : this._score,
-            games : this._games
+            games : this._games,
+            rank : this._rank
         }
     }
 

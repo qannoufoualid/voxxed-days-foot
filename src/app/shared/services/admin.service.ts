@@ -24,8 +24,7 @@ export class AdminService {
     this.players = new BehaviorSubject<Player[]>([]);
 
     let m : Message = new Message(null, Action.GET_ALL_PLAYERS_ACTION, []);
-    console.log(m);
-    this.serverSocket.send(JSON.stringify(m));
+    this.serverSocket.send(m);
     if(this.socketSubscription == null)
     this.socketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
       if(utilsService.isJson(message) && message != null){
@@ -34,7 +33,7 @@ export class AdminService {
         let status = this.mappingConfigurationService.getStatusName(Status.SUCCEED);
         let isLoaded = this.mappingConfigurationService.isLoaded();
         if(isLoaded && (m.action === action)){
-          let recievedPlayers : Player[] = m.data[0].value;
+          let recievedPlayers : Player[] = m.data.stats;
           this.setPlayers(recievedPlayers);
         }
       }
@@ -46,6 +45,17 @@ export class AdminService {
   }
 
   public setPlayers(newValue: Player[]): void {
+    newValue.sort((a: Player, b: Player) => {
+      if (a.score < b.score) {
+        return 1;
+      } else if (a.score > b.score) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+    let i = 1;
+    newValue.forEach(player => player.rank = i++);
     this.players.next(newValue);
   }
 

@@ -2,7 +2,8 @@
   <thead>
     <tr>
       <th scope="col">Rank</th>
-      <th scope="col">Pseudonym</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
       <th scope="col">Score</th>
     </tr>
   </thead>
@@ -10,10 +11,13 @@
 
     <tr *ngFor="let player of (players | slice:0:3) " >
       <td class="green-background">
-        {{player.id}}
+        {{player.rank}}
       </td>
       <td class="green-background">
-        {{player.pseudo}}
+        {{player.firstName}}
+      </td>
+      <td class="green-background">
+        {{player.lastName}}
       </td>
       <td class="green-background">
         {{player.score}}
@@ -30,18 +34,24 @@
         <td>
           ..
         </td>
+        <td>
+          ..
+        </td>
       </tr>
 
-    <tr *ngFor="let player of (players | slice:startIndex:(startIndex+howMuch)) ">
-        <td>
-          {{player.id}}
-        </td>
-        <td>
-          {{player.pseudo}}
-        </td>
-        <td>
-          {{player.score}}
-        </td>
+    <tr *ngFor="let player of (players | slice:startIndex:(startIndex+howMuch))">
+      <td>
+        {{player.rank}}
+      </td>
+      <td>
+        {{player.firstName}}
+      </td>
+      <td>
+        {{player.lastName}}
+      </td>
+      <td>
+        {{player.score}}
+      </td>
       </tr>
 
   </tbody>

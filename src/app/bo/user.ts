@@ -9,8 +9,8 @@ export class User{
 	private _password?: string,
 	private _firstName?: string,
 	private _lastName?: string,
-	private _contact?: boolean){}
-
+    private _contact?: boolean){}
+    
     get mail(): string {
         return this._mail;
     }

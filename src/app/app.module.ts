@@ -13,12 +13,12 @@ import { AdminPlayersComponent } from './admin-players/admin-players.component';
 import { ServerSocketService } from './shared/services/server-socket.service';
 import { AdminService } from './shared/services/admin.service';
 import { AuthenticationService } from './shared/services/authentication.service';
-import { ErrorListComponent } from './error-list/error-list.component';
 import { UtilsService } from './shared/services/utils.service';
-import { CanActivateViaAuthGuard } from './shared/services/can-activate-via-auth-guard.service';
+import { CanActivateViaAuthGuard } from './shared/gards/can-activate-via-auth-guard';
 import { MappingConfigurationService } from './shared/services/mapping-configuration.service';
 import { AlertComponent } from './alert/alert.component';
 import { AlertService } from './shared/services/alert.service';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 const appRoutes: Routes = [
   {
@@ -59,7 +59,6 @@ const appRoutes: Routes = [
     AdminHeaderComponent,
     AdminScoreListComponent,
     AdminPlayersComponent,
-    ErrorListComponent,
     AlertComponent
   ],
   imports: [
@@ -68,7 +67,8 @@ const appRoutes: Routes = [
       {}
     ),
     BrowserModule,
-    FormsModule
+    FormsModule,
+    Ng2SearchPipeModule
   ],
   providers: [
     ServerSocketService,

@@ -18,7 +18,7 @@ export class AppComponent {
   
   ngOnInit() {
       this.serverSocket.connect();
-      this.serverSocket.send( JSON.stringify(new Message(Status.SUCCEED, Action.GET_MAPPING_CONFIGURATION, [] )));
+      this.serverSocket.send( new Message(Status.SUCCEED, Action.GET_MAPPING_CONFIGURATION, [] ));
   }  
 
 

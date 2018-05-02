@@ -22,7 +22,7 @@ export class AdminHeaderComponent implements OnInit {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
     localStorage.removeItem("currentUser");
-
+    localStorage.removeItem("token");
   }
 
 }

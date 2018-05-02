@@ -3,7 +3,6 @@ import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot} from 
 import { Subscription } from 'rxjs/Subscription'
 
 import { ServerSocketService } from './server-socket.service'
-import { Data } from '../../bo/data';
 import { UtilsService } from './utils.service';
 import { User } from '../../bo/user';
 import { Message } from '../../bo/message';
@@ -22,11 +21,11 @@ export class AuthenticationService implements OnDestroy {
     
     }
  
-    public authenticate(user : User, callback: () => void, errorCallback : (errors : Data[]) => void){
+    public authenticate(user : User, callback: (response : Message) => void, errorCallback : (error : string) => void){
 
         this.serverSocket.connect();
-        let m : Message = new Message(null, Action.AUTHENTICATE, [ new Data("user", user)]);
-        this.serverSocket.send(JSON.stringify(m));
+        let m : Message = new Message(null, Action.AUTHENTICATE, {"user": user});
+        this.serverSocket.send(m);
 
         if(this.socketSubscription==null)
         this.socketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
@@ -34,15 +33,15 @@ export class AuthenticationService implements OnDestroy {
             if(this.utilsService.isJson(message) && message != null)
             {
                 let m :  Message = JSON.parse(message);
-                let action = this.mappingConfigurationService.getActionName(Action.AUTHENTICATE__RESPONSE);
+                let action = this.mappingConfigurationService.getActionName(Action.AUTHENTICATE_RESPONSE);
                 let isLoaded = this.mappingConfigurationService.isLoaded();
                 if(isLoaded && (m.action === action))
                     if(m.status === Status.SUCCEED){
-                        callback();
+                        callback(m);
                         this.isConnected = true;
                     }
                     else{
-                        errorCallback(m.data);
+                        errorCallback(m.data.error);
                         this.isConnected = false;
                     }
             }
