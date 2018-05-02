@@ -23,9 +23,8 @@ export class AdminService {
   constructor(private serverSocket: ServerSocketService, private mappingConfigurationService : MappingConfigurationService,private router: Router, private authenticationService : AuthenticationService, private utilsService : UtilsService) {
     this.players = new BehaviorSubject<Player[]>([]);
 
-    let m : Message = new Message();
-    m.action = Action.GET_ALL_PLAYERS_ACTION;
-
+    let m : Message = new Message(null, Action.GET_ALL_PLAYERS_ACTION, []);
+    console.log(m);
     this.serverSocket.send(JSON.stringify(m));
     if(this.socketSubscription == null)
     this.socketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {

@@ -26,7 +26,6 @@ export class SignUpService {
 
         if(this.socketSubscription==null)
         this.socketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
-            console.log("here");
             if(this.utilsService.isJson(message) && message != null)
             {
                 let m :  Message = JSON.parse(message);

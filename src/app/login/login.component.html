@@ -1,16 +1,16 @@
 <div class="container">
   <div [hidden]="submitted">
     <h1>Login</h1>
-    <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
       <div class="form-group">
-        <label for="login">Name</label>
-        <input type="text" class="form-control" id="login"
+        <label for="mail">Email</label>
+        <input type="text" class="form-control" id="mail"
                required
-               [(ngModel)]="user.login" name="login"
-               #login="ngModel">
-        <div [hidden]="login.valid || login.pristine"
+               [(ngModel)]="user.mail" name="mail"
+               #mail="ngModel">
+        <div [hidden]="mail.valid || mail.pristine"
                class="alert alert-danger">
-          Login is required
+          Email is required
         </div>
         <label for="password">Password</label>
         <input type="password" class="form-control" id="password"

@@ -16,13 +16,13 @@ export class MappingConfigurationService {
 
     if(this.socketSubscription==null)
         this.socketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
-            console.log(message);
             if(this.utilsService.isJson(message) && message != null)
             {
                 let m :  Message = JSON.parse(message);
                 if(m.action === Action.GET_MAPPING_CONFIGURATION_RESPONSE)
                     if(m.status === Status.SUCCEED){
-                      this._config = JSON.parse(m.data[0].value);
+                      let firstData = m.data[0];
+                      this._config = JSON.parse(firstData.value);
                     }
                     else{
                       console.log(m.status);

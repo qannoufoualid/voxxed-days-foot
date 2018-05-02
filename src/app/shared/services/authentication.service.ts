@@ -25,9 +25,7 @@ export class AuthenticationService implements OnDestroy {
     public authenticate(user : User, callback: () => void, errorCallback : (errors : Data[]) => void){
 
         this.serverSocket.connect();
-        let m : Message = new Message();
-        m.action = Action.AUTHENTICATE;
-        m.data.push(new Data("user", user));
+        let m : Message = new Message(null, Action.AUTHENTICATE, [ new Data("user", user)]);
         this.serverSocket.send(JSON.stringify(m));
 
         if(this.socketSubscription==null)
@@ -37,10 +35,9 @@ export class AuthenticationService implements OnDestroy {
             {
                 let m :  Message = JSON.parse(message);
                 let action = this.mappingConfigurationService.getActionName(Action.AUTHENTICATE__RESPONSE);
-                let status = this.mappingConfigurationService.getStatusName(Status.SUCCEED);
                 let isLoaded = this.mappingConfigurationService.isLoaded();
                 if(isLoaded && (m.action === action))
-                    if(m.status === status){
+                    if(m.status === Status.SUCCEED){
                         callback();
                         this.isConnected = true;
                     }
@@ -50,7 +47,6 @@ export class AuthenticationService implements OnDestroy {
                     }
             }
         });
-       
     }
 
     public logout(){

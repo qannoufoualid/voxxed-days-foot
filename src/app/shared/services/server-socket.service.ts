@@ -15,7 +15,7 @@ export class ServerSocketService implements OnDestroy {
   private inputStream: QueueingSubject<string>
   public messages: Observable<string>
   public receivedMessage: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-  private url : string = 'ws://127.0.0.1:8999';
+  private url : string = 'ws://127.0.0.1:8991';
   private socketSubscription: Subscription;
 
   constructor() {

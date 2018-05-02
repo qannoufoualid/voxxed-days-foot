@@ -20,7 +20,7 @@ import { AlertService } from '../shared/services/alert.service';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent {
-    model: User = new User();
+    user: User = new User();
     loading = false;
     private errors: Data[] = [] ;
     
@@ -29,9 +29,9 @@ export class SignUpComponent {
       private signUpService : SignUpService,
     private alertService : AlertService) { }
 
-    register() {
+    onSubmit() {
 
-      this.signUpService.signUp(this.model, 
+      this.signUpService.signUp(this.user, 
         () =>{
           this.alertService.success('Registration successful', true);
           this.router.navigate(['/login']);        
