@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertService } from '../shared/services/alert.service';
 
+/**
+ * Component that handles the alerts of the other componentns
+ */
 @Component({
   selector: 'app-alert',
   templateUrl: './alert.component.html',

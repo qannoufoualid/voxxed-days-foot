@@ -1,3 +1,7 @@
+
+/**
+ * The data of the message.
+ */
 export class Data {
 
     constructor(private _key: string, private _value: any) {}

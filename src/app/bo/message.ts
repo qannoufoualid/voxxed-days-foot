@@ -1,5 +1,8 @@
 import { Data } from "./data";
 
+/**
+ * The message that can be exchaanged between the client and the server..
+ */
 export class Message {
 
     constructor(private _status? : string, private _action?: string, private _data?: Data[]) {}

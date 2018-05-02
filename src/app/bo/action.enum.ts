@@ -1,3 +1,7 @@
+
+/**
+ * The List of possible action that can occure between the client and the server.
+ */
 export enum Action {
 
     GET_ALL_PLAYERS_ACTION = "GET_STAT",

@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { Data } from '../bo/data';
 
+/**
+ * Component to handle the list of errors
+ */
 @Component({
   selector: 'app-error-list',
   templateUrl: './error-list.component.html'

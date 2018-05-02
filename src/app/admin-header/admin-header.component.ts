@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { Router} from '@angular/router';
+
+/**
+ * component to handle the header of the administration part.
+ */
 @Component({
   selector: 'app-admin-header',
   templateUrl: './admin-header.component.html',

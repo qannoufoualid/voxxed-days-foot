@@ -6,6 +6,9 @@ import { AuthenticationService } from '../shared/services/authentication.service
 import { User } from '../bo/user';
 import { Data } from '../bo/data';
 
+/**
+ * Component of login
+ */
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -34,10 +37,13 @@ export class LoginComponent implements OnInit {
     this.authenticationService.authenticate(this.user,
       () =>{
         // store username and jwt token in local storage to keep user logged in between page refreshes
+        //TODO Token
         localStorage.setItem('currentUser', JSON.stringify(this.user));
+        //Route the user to the admin page
         this.router.navigate(['/admin/score']);
       },
       err => {
+        //Display errors.
         this.errors = err;
       }
     );

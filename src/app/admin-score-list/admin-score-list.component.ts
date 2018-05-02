@@ -4,6 +4,9 @@ import { Subscription } from 'rxjs/Subscription'
 import { Player } from '../bo/player';
 import { AdminService } from '../shared/services/admin.service';
 
+/**
+ * Component that shows the score of players.
+ */
 @Component({
   selector: 'app-admin-score-list',
   templateUrl: './admin-score-list.component.html',

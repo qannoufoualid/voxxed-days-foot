@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+/**
+ * Component to handle administration.
+ */
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',

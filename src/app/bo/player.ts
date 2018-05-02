@@ -1,6 +1,8 @@
+
+/**
+ * The entity of player.
+ */
 export class Player{
-
-
 
     constructor (private _mail: string,
 	private _firstName:string,

@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Player } from '../bo/player';
 import { AdminService } from '../shared/services/admin.service';
 
+/**
+ * Component that handles the list of players.
+ */
 @Component({
   selector: 'app-admin-players',
   templateUrl: './admin-players.component.html',

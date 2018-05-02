@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 
+/**
+ * Component to be shown when the no page is found.
+ */
 @Component({
   moduleId: module.id,
   selector: 'story-404',

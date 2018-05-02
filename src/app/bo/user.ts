@@ -1,5 +1,8 @@
-export class User{
 
+/**
+ * The user of the appalication.
+ */
+export class User{
 
     constructor(
     private _mail?: string,
