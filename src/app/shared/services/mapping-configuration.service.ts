@@ -6,10 +6,15 @@ import { Message } from '../../bo/message';
 import { Action } from '../../bo/action.enum';
 import { Status } from '../../bo/status.enum';
 
+/**
+ * The service that extracts the info about the mapping configuration.
+ */
 @Injectable()
 export class MappingConfigurationService {
 
+  // the websocketSubscription.
   private socketSubscription: Subscription;
+  //to hold the configuration
   private _config : any;
 
   constructor(private serverSocket : ServerSocketService, private utilsService : UtilsService) {

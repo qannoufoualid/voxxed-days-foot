@@ -3,6 +3,9 @@ import { Router, NavigationStart } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
 
+/**
+ * A service to handle the alerts of the application.
+ */
 @Injectable()
 export class AlertService {
     private subject = new Subject<any>();

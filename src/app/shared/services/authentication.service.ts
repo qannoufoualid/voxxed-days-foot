@@ -11,9 +11,13 @@ import { Action } from '../../bo/action.enum';
 import { Status } from '../../bo/status.enum';
 
 
+/**
+ * Service of authentication.
+ */
 @Injectable()
 export class AuthenticationService implements OnDestroy {
-    public token: string;
+ 
+    // The authentication subscription to the websocket.
     private socketSubscription: Subscription;
     private _isConnected : boolean = false;
 
@@ -21,6 +25,12 @@ export class AuthenticationService implements OnDestroy {
     
     }
  
+    /**
+     * handle the authentication of the user
+     * @param user the user to be authenticated
+     * @param callback the callback to execute after a successful authentication. 
+     * @param errorCallback the callback to execute after a wrong authentication.
+     */
     public authenticate(user : User, callback: (response : Message) => void, errorCallback : (error : string) => void){
 
         this.serverSocket.connect();

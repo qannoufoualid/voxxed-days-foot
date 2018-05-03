@@ -34,11 +34,18 @@ export class AdminPlayersComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Send a request to the backend to increase the life of a player.
+   * @param mail the email of the player
+   */
   setMaxHealth(mail : string){
 
+    // Create the message.
     let m : Message = new Message(null, Action.SET_MAX_HEALTH, {"maxHealth": 5});
+    // Send the message.
     this.serverSocket.send(m);
 
+    //We subscribe only once
     if(this.socketSubscription==null)
         this.socketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
              

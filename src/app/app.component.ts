@@ -17,7 +17,9 @@ export class AppComponent {
   constructor(private serverSocket: ServerSocketService, private mappingConfigurationService : MappingConfigurationService){ }
   
   ngOnInit() {
+      //At startup we make a connection via websockets.
       this.serverSocket.connect();
+      //We ask for the configuration mapping infos.
       this.serverSocket.send( new Message(Status.SUCCEED, Action.GET_MAPPING_CONFIGURATION, [] ));
   }  
 

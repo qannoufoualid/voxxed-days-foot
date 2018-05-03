@@ -11,12 +11,31 @@ import { Player } from '../../bo/player';
 import { User } from '../../bo/user';
 import { Message } from '../../bo/message';
 
+/**
+ * The service that handle the communication with the backend via websockets.
+ */
 @Injectable()
 export class ServerSocketService implements OnDestroy {
+
+  /**
+   * The inputstream of the websocket.
+   */
   private inputStream: QueueingSubject<string>
+  /**
+   *  an observable of the message sent by the server
+   */
   public messages: Observable<string>
+  /**
+   * The received message
+   */
   public receivedMessage: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  /**
+   * The url of the backend.
+   */
   private url : string = 'ws://127.0.0.1:8991';
+  /**
+   * The subscription of the service.
+   */
   private socketSubscription: Subscription;
 
   constructor() {
@@ -24,10 +43,8 @@ export class ServerSocketService implements OnDestroy {
 
   public connect() {
     
-    // Using share() causes a single websocket to be created when the first
-    // observer subscribes. This socket is shared with subsequent observers
-    // and closed when the observer count falls to zero.
 
+    //Make a connection
     this.messages = websocketConnect(
       this.url,
       this.inputStream = new QueueingSubject<string>()
@@ -41,8 +58,12 @@ export class ServerSocketService implements OnDestroy {
     });
   }
 
+  /**
+   * To send a message
+   * @param message the message to be sent
+   */
   public send(message: Message):void {
-    console.log(localStorage);
+    //We add the token.
     let token = localStorage.getItem('token');
     message.token = token;
     console.log("---> Sending : ");
