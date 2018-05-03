@@ -19,6 +19,7 @@ import { MappingConfigurationService } from './shared/services/mapping-configura
 import { AlertComponent } from './alert/alert.component';
 import { AlertService } from './shared/services/alert.service';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 const appRoutes: Routes = [
   {
@@ -68,7 +69,8 @@ const appRoutes: Routes = [
     ),
     BrowserModule,
     FormsModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    NgxPaginationModule
   ],
   providers: [
     ServerSocketService,

@@ -29,7 +29,7 @@ export class AdminService {
     this.players = new BehaviorSubject<Player[]>([]);
     
     //Send a message to the backend to get the list of players.
-    let m : Message = new Message(null, Action.GET_ALL_PLAYERS_ACTION, []);
+    let m : Message = new Message(null, Action.GET_ALL_STATS, []);
     this.serverSocket.send(m);
 
     //Make a subscription to 
@@ -37,13 +37,13 @@ export class AdminService {
     this.socketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
       if(utilsService.isJson(message) && message != null){
         let m : Message = JSON.parse(message);
-        let action = this.mappingConfigurationService.getActionName(Action.GET_ALL_PLAYERS_RESPONSE);
+        let action = this.mappingConfigurationService.getActionName(Action.GET_ALL_STATS_RESPONSE);
         let status = this.mappingConfigurationService.getStatusName(Status.SUCCEED);
         let isLoaded = this.mappingConfigurationService.isLoaded();
-        if(isLoaded && (m.action === action) && (m.status === Status.SUCCEED){
+        if(isLoaded && (m.action === action) && (m.status === status)){
           let recievedPlayers : Player[] = m.data.stats;
           this.setPlayers(recievedPlayers);
-        }else if(m.status===Status.FAILED)
+        }else if(m.status != status)
             this.alertService.error('Cannot get the list of players. Reason : '+m.data.error);
       }
     })

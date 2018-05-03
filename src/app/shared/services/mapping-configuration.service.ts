@@ -24,8 +24,8 @@ export class MappingConfigurationService {
             if(this.utilsService.isJson(message) && message != null)
             {
                 let m :  Message = JSON.parse(message);
-                if(m.action === Action.GET_MAPPING_CONFIGURATION_RESPONSE)
-                    if(m.status === Status.SUCCEED){
+                if(m.action === "GET_MAPPING_CONFIGURATION_RESPONSE")
+                    if(m.status === "SUCCEED"){
                       this._config = m.data;
                     }
             }

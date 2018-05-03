@@ -12,17 +12,17 @@
             </thead>
             <tbody>
           
-              <tr *ngFor="let player of (players | slice:0:3) " >
-                <td class="green-background">
+              <tr *ngFor="let player of (players | slice:0:3) " class="top-three" >
+                <td>
                   {{player.rank}}
                 </td>
-                <td class="green-background">
+                <td>
                   {{player.firstName}}
                 </td>
-                <td class="green-background">
+                <td>
                   {{player.lastName}}
                 </td>
-                <td class="green-background">
+                <td>
                   {{player.score}}
                 </td>
               </tr>

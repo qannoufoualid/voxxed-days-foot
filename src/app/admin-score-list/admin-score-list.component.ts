@@ -21,7 +21,7 @@ export class AdminScoreListComponent implements OnInit, OnDestroy{
   // How much player to show in the dynamic list.
   howMuch : number = 4;
   // the speed of loading refreshing players.
-  speed : number = 1*1000;
+  speed : number = 3*1000;
   // the list of players.
   players : Player[];
   

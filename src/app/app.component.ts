@@ -20,7 +20,7 @@ export class AppComponent {
       //At startup we make a connection via websockets.
       this.serverSocket.connect();
       //We ask for the configuration mapping infos.
-      this.serverSocket.send( new Message(Status.SUCCEED, Action.GET_MAPPING_CONFIGURATION, [] ));
+      //this.serverSocket.send( new Message(null, Action.GET_MAPPING_CONFIGURATION, [] ));
   }  
 
 

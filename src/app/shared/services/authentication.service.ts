@@ -10,7 +10,6 @@ import { MappingConfigurationService } from './mapping-configuration.service';
 import { Action } from '../../bo/action.enum';
 import { Status } from '../../bo/status.enum';
 
-
 /**
  * Service of authentication.
  */
@@ -34,7 +33,7 @@ export class AuthenticationService implements OnDestroy {
     public authenticate(user : User, callback: (response : Message) => void, errorCallback : (error : string) => void){
 
         this.serverSocket.connect();
-        let m : Message = new Message(null, Action.AUTHENTICATE, {"user": user});
+        let m : Message = new Message(null, Action.AUTHENTICATE, {"mail": user.mail, "password": user.password});
         this.serverSocket.send(m);
 
         if(this.socketSubscription==null)
@@ -42,11 +41,13 @@ export class AuthenticationService implements OnDestroy {
             
             if(this.utilsService.isJson(message) && message != null)
             {
+                console.log("here1");
                 let m :  Message = JSON.parse(message);
                 let action = this.mappingConfigurationService.getActionName(Action.AUTHENTICATE_RESPONSE);
+                let status = this.mappingConfigurationService.getStatusName(Status.SUCCEED);
                 let isLoaded = this.mappingConfigurationService.isLoaded();
                 if(isLoaded && (m.action === action))
-                    if(m.status === Status.SUCCEED){
+                    if(m.status === status){
                         callback(m);
                         this.isConnected = true;
                     }

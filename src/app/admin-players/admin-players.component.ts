@@ -10,6 +10,7 @@ import { MappingConfigurationService } from '../shared/services/mapping-configur
 import { Status } from '../bo/status.enum';
 import { AlertService } from '../shared/services/alert.service';
 
+
 /**
  * Component that handles the list of players.
  */
@@ -38,10 +39,12 @@ export class AdminPlayersComponent implements OnInit {
    * Send a request to the backend to increase the life of a player.
    * @param mail the email of the player
    */
-  setMaxHealth(mail : string){
+  setMaxHealth(player : Player){
+
+    player.maxHealth = 5;
 
     // Create the message.
-    let m : Message = new Message(null, Action.SET_MAX_HEALTH, {"maxHealth": 5});
+    let m : Message = new Message(null, Action.SET_MAX_HEALTH, {"mail": player.mail, "maxHealth": 5});
     // Send the message.
     this.serverSocket.send(m);
 
@@ -53,13 +56,14 @@ export class AdminPlayersComponent implements OnInit {
             {
                 let m :  Message = JSON.parse(message);
                 let action = this.mappingConfigurationService.getActionName(Action.SET_MAX_HEALTH_RESPONSE);
+                let status = this.mappingConfigurationService.getStatusName(Status.SUCCEED);
                 let isLoaded = this.mappingConfigurationService.isLoaded();
                 if(isLoaded && (m.action === action))
-                    if(m.status === Status.SUCCEED){
+                    if(m.status === status){
                            this.alertService.success("Life added successfully to "+m.data.mail);
                     }
                     else{
-                        this.alertService.success("Problem :  "+m.data.error);
+                        this.alertService.error("Problem :  "+m.data.error);
                     }
             }
         });

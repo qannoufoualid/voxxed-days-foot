@@ -10,6 +10,8 @@ import 'rxjs/add/operator/share'
 import { Player } from '../../bo/player';
 import { User } from '../../bo/user';
 import { Message } from '../../bo/message';
+import { AlertService } from './alert.service';
+import { environment } from '../../../environments/environment';
 
 /**
  * The service that handle the communication with the backend via websockets.
@@ -32,17 +34,16 @@ export class ServerSocketService implements OnDestroy {
   /**
    * The url of the backend.
    */
-  private url : string = 'ws://127.0.0.1:8991';
+  private url: string = environment.backendUrl;
   /**
    * The subscription of the service.
    */
   private socketSubscription: Subscription;
 
-  constructor() {
+  constructor(private alertService: AlertService) {
   }
 
   public connect() {
-    
 
     //Make a connection
     this.messages = websocketConnect(
@@ -53,16 +54,17 @@ export class ServerSocketService implements OnDestroy {
     // the websocket connection is created lazily when the messages observable is
     // subscribed to
     this.socketSubscription = this.messages.subscribe((message: string) => {
-        console.log("<--- Recieved : "+message);
-        this.receivedMessage.next(message);
-    });
+      console.log("<--- Recieved : " + message);
+      this.receivedMessage.next(message);
+    }, err => this.alertService.error("Technical error."));
+
   }
 
   /**
    * To send a message
    * @param message the message to be sent
    */
-  public send(message: Message):void {
+  public send(message: Message): void {
     //We add the token.
     let token = localStorage.getItem('token');
     message.token = token;
@@ -71,7 +73,7 @@ export class ServerSocketService implements OnDestroy {
     this.inputStream.next(JSON.stringify(message))
   }
 
-  public disconnect(){
+  public disconnect() {
     this.socketSubscription.unsubscribe()
   }
 

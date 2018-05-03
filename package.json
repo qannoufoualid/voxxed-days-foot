@@ -24,6 +24,7 @@
     "core-js": "^2.4.1",
     "express": "^4.16.3",
     "ng2-search-filter": "^0.4.7",
+    "ngx-pagination": "^3.1.1",
     "queueing-subject": "^0.2.0",
     "rxjs": "^5.5.6",
     "rxjs-websockets": "^4.0.0",
