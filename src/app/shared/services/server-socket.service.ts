@@ -74,11 +74,11 @@ export class ServerSocketService implements OnDestroy {
   }
 
   public disconnect() {
-    this.socketSubscription.unsubscribe()
+    this.socketSubscription.unsubscribe();
   }
 
   ngOnDestroy() {
-    this.socketSubscription.unsubscribe()
+    this.socketSubscription.unsubscribe();
   }
 
   public getRecievedMessage(): Observable<string> {
@@ -87,6 +87,10 @@ export class ServerSocketService implements OnDestroy {
 
   public setRecievedMessage(newValue: string): void {
     this.receivedMessage.next(newValue);
+  }
+
+  public isSocketCreated() : boolean{
+      return !this.socketSubscription.closed;
   }
 
 }

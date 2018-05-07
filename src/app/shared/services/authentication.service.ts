@@ -34,7 +34,8 @@ export class AuthenticationService implements OnDestroy {
     public authenticate(user: User, callback: (response: Message) => void, errorCallback: (error: string) => void) {
         this.loaderService.show();
 
-        this.serverSocket.connect();
+        if(!this.serverSocket.isSocketCreated())
+            this.serverSocket.connect();
         let m: Message = new Message(null, Action.AUTHENTICATE, { "mail": user.mail, "password": user.password });
         this.serverSocket.send(m);
 
