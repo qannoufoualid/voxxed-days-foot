@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs/Subscription'
 
 import { Player } from '../bo/player';
 import { AdminService } from '../shared/services/admin.service';
+import { LoaderService } from '../shared/services/loader.service';
 
 /**
  * Component that shows the score of players.

@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription'
 import { AuthenticationService } from '../shared/services/authentication.service'
 import { User } from '../bo/user';
 import { AlertService } from '../shared/services/alert.service';
+import { LoaderService } from '../shared/services/loader.service';
 
 /**
  * Component of login
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
   private socketSubscription: Subscription;
   user : User = new User();
 
-  constructor(private authenticationService: AuthenticationService, private router: Router, private alertService : AlertService) {
+  constructor(private authenticationService: AuthenticationService, private router: Router,private alertService : AlertService) {
     
   }
 

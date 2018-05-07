@@ -20,6 +20,8 @@ import { AlertComponent } from './alert/alert.component';
 import { AlertService } from './shared/services/alert.service';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { LoaderComponent } from './loader/loader.component';
+import { LoaderService } from './shared/services/loader.service';
 
 const appRoutes: Routes = [
   {
@@ -60,7 +62,8 @@ const appRoutes: Routes = [
     AdminHeaderComponent,
     AdminScoreListComponent,
     AdminPlayersComponent,
-    AlertComponent
+    AlertComponent,
+    LoaderComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -79,7 +82,8 @@ const appRoutes: Routes = [
     UtilsService,,
     MappingConfigurationService,
     CanActivateViaAuthGuard,
-    AlertService
+    AlertService,
+    LoaderService
   ],
   bootstrap: [AppComponent]
 })

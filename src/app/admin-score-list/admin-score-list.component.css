@@ -1,5 +1,14 @@
 .top-three{
-    background: #e1eec3; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #48c6ef, #6f86d6); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #48c6ef, #6f86d6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #C9D6FF; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #C9D6FF, #E2E2E2); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #C9D6FF, #E2E2E2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.header {
+  background-color: #327a81;
+  color: white;
+  font-size: 1.5em;
+  padding: 1rem;
+  text-align: center;
+  text-transform: uppercase;
 }

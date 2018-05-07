@@ -12,6 +12,7 @@ import { Action } from '../../bo/action.enum';
 import { MappingConfigurationService } from './mapping-configuration.service';
 import { Status } from '../../bo/status.enum';
 import { AlertService } from './alert.service';
+import { LoaderService } from './loader.service';
 
 /**
  * Service to handle the data of the administration part of the appalication.
@@ -24,12 +25,13 @@ export class AdminService {
   // The subscription to the socket.
   private socketSubscription: Subscription;
   
-  constructor(private serverSocket: ServerSocketService, private mappingConfigurationService : MappingConfigurationService,private router: Router, private authenticationService : AuthenticationService, private utilsService : UtilsService, private alertService : AlertService) { 
+  constructor(private serverSocket: ServerSocketService, private mappingConfigurationService : MappingConfigurationService,private router: Router, private authenticationService : AuthenticationService, private utilsService : UtilsService, private alertService : AlertService, private loaderService : LoaderService) { 
 
     this.players = new BehaviorSubject<Player[]>([]);
     
     //Send a message to the backend to get the list of players.
-    let m : Message = new Message(null, Action.GET_ALL_STATS, []);
+    let m : Message = new Message(null, Action.GET_ALL_STATS, {});
+    this.loaderService.show();
     this.serverSocket.send(m);
 
     //Make a subscription to 

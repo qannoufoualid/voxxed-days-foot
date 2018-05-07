@@ -1,66 +1,67 @@
 <div class="container">
-    <div class="row">
+  <div class="row">
+    <div class="header">Ranking</div>
+    <table class="table table-striped table-dark table-users">
+      <thead>
+        <tr>
+          <th scope="col">Rank</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <app-loader></app-loader>
+        <tr *ngFor="let player of (players | slice:0:3) " class="top-three">
+          <td>
+            <img [src]="'assets/images/'+player.rank+'.png'" width="30px" height="40px"/>
 
-        <table class="table table-striped table-dark">
-            <thead>
-              <tr>
-                <th scope="col">Rank</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Score</th>
-              </tr>
-            </thead>
-            <tbody>
-          
-              <tr *ngFor="let player of (players | slice:0:3) " class="top-three" >
-                <td>
-                  {{player.rank}}
-                </td>
-                <td>
-                  {{player.firstName}}
-                </td>
-                <td>
-                  {{player.lastName}}
-                </td>
-                <td>
-                  {{player.score}}
-                </td>
-              </tr>
-          
-              <tr *ngIf="players.length > 3 && startIndex > 3 ">
-                  <td>
-                    ..
-                  </td>
-                  <td>
-                    ..
-                  </td>
-                  <td>
-                    ..
-                  </td>
-                  <td>
-                    ..
-                  </td>
-                </tr>
-          
-              <tr *ngFor="let player of (players | slice:startIndex:(startIndex+howMuch))">
-                <td>
-                  {{player.rank}}
-                </td>
-                <td>
-                  {{player.firstName}}
-                </td>
-                <td>
-                  {{player.lastName}}
-                </td>
-                <td>
-                  {{player.score}}
-                </td>
-                </tr>
-          
-            </tbody>
-          </table>
+          </td>
+          <td>
+            {{player.firstName}}
+          </td>
+          <td>
+            {{player.lastName}}
+          </td>
+          <td>
+            {{player.score}}
+          </td>
+        </tr>
+
+        <tr *ngIf="players.length > 3 && startIndex > 3 ">
+          <td>
+            ..
+          </td>
+          <td>
+            ..
+          </td>
+          <td>
+            ..
+          </td>
+          <td>
+            ..
+          </td>
+        </tr>
+
+        <tr *ngFor="let player of (players | slice:startIndex:(startIndex+howMuch))">
+          <td>
+            {{player.rank}}
+          </td>
+          <td>
+            {{player.firstName}}
+          </td>
+          <td>
+            {{player.lastName}}
+          </td>
+          <td>
+            {{player.score}}
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
 
 
 
-    </div>
+  </div>
 </div>
