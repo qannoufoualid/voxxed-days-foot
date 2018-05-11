@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  backendUrl : 'ws://127.0.0.1:7000'
+  backendUrl : 'wss://127.0.0.1:7000'
 };
