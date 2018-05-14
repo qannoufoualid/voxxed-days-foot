@@ -22,6 +22,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { LoaderComponent } from './loader/loader.component';
 import { LoaderService } from './shared/services/loader.service';
+import { GameComponent } from './game/game.component';
 
 const appRoutes: Routes = [
   {
@@ -38,6 +39,10 @@ const appRoutes: Routes = [
       {
         path: 'players',
         component: AdminPlayersComponent,
+      },
+      {
+        path: 'game',
+        component: GameComponent,
       }
     ]
   },
@@ -63,7 +68,8 @@ const appRoutes: Routes = [
     AdminScoreListComponent,
     AdminPlayersComponent,
     AlertComponent,
-    LoaderComponent
+    LoaderComponent,
+    GameComponent
   ],
   imports: [
     RouterModule.forRoot(

@@ -21,10 +21,10 @@ import { AlertService } from '../shared/services/alert.service';
 })
 export class AdminPlayersComponent implements OnInit {
     
-  players : Player[];
+  private players : Player[];
   private socketSubscription: Subscription;
-  items = [];
-  itemCount = 0;
+  private items = [];
+  private itemCount = 0;
 
   constructor(private alertService : AlertService,private adminService: AdminService, private serverSocket : ServerSocketService, private utilsService : UtilsService, private mappingConfigurationService : MappingConfigurationService) {
     this.adminService.getPlayers().subscribe( players => {
