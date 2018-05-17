@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription'
-
 import { Player } from '../bo/player';
 import { AdminService } from '../shared/services/admin.service';
 import { LoaderService } from '../shared/services/loader.service';
@@ -25,7 +24,9 @@ export class AdminScoreListComponent implements OnInit, OnDestroy{
   speed : number = 3*1000;
   // the list of players.
   players : Player[];
-  
+  // the max number of characters that the content of a column should have
+  private columnMaxCharsNumber : number = 15;
+
   constructor(private adminService: AdminService) {
     // At startup we add an observer to the list of players in the backend.
     this.adminService.getPlayers().subscribe( players => {
@@ -49,9 +50,15 @@ export class AdminScoreListComponent implements OnInit, OnDestroy{
        this.startIndex = 3;    
   }
 
+  hideHeader(){
+    this.adminService.switchHeaderHideState();
+  }
+
   // Stop the refresh function.
   ngOnDestroy(){
     clearInterval(this.timerToken);
   }
+
+
 
 }

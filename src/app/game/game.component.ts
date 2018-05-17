@@ -15,17 +15,18 @@ import { AlertService } from '../shared/services/alert.service';
 })
 export class GameComponent implements OnInit {
 
-  private socketSubscription: Subscription;
-  private message: string;
+  private broadcastSocketSubscription: Subscription;
+  private gameStateSocketSubscription: Subscription;
+  message: string;
+  lastMessage : string;
   private isGameRunning: boolean = false;
-
+  
   constructor(private serverSocket: ServerSocketService, private utilsService: UtilsService, private mappingConfigurationService: MappingConfigurationService, private alertService: AlertService) { }
 
   ngOnInit() {
   }
 
   broadcast() {
-
 
     if (!confirm('Are you sure you want to broadcast the message?')) {
       return;
@@ -36,9 +37,11 @@ export class GameComponent implements OnInit {
     // Send the message.
     this.serverSocket.send(m);
 
+    //Reset the message
+    this.lastMessage = this.message;
     //We subscribe only once
-    if (this.socketSubscription == null)
-      this.socketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
+    if (this.broadcastSocketSubscription == null)
+      this.broadcastSocketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
 
         if (this.utilsService.isJson(message) && message != null) {
           let m: Message = JSON.parse(message);
@@ -56,20 +59,20 @@ export class GameComponent implements OnInit {
       });
   }
 
-  switchGameState() {
+  changeGameState(stop : boolean) {
 
-    if (!confirm('Are you sure you want to ' + ((this.isGameRunning) ? 'shut down' : 'start') + ' the game?')) {
+    if (!confirm('Are you sure you want to ' + ((stop) ? 'shut down' : 'start') + ' the tournament?')) {
       return;
     }
 
     // Create the message.
-    let m: Message = new Message(null, (this.isGameRunning) ? Action.END_TOURNAMENT : Action.START_TOURNAMENT, {});
+    let m: Message = new Message(null, stop ? Action.END_TOURNAMENT : Action.START_TOURNAMENT, {});
     // Send the message.
     this.serverSocket.send(m);
 
     //We subscribe only once
-    if (this.socketSubscription == null)
-      this.socketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
+    if (this.gameStateSocketSubscription == null)
+      this.gameStateSocketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
         if (this.utilsService.isJson(message) && message != null) {
           let m: Message = JSON.parse(message);
           let actionStart = this.mappingConfigurationService.getActionName(Action.START_TOURNAMENT_RESPONSE);
@@ -78,8 +81,8 @@ export class GameComponent implements OnInit {
           let isLoaded = this.mappingConfigurationService.isLoaded();
           if (isLoaded && (m.action === actionStart || m.action == actionStop))
             if (m.status === status) {
-              this.isGameRunning == (actionStart == m.action);
-              this.alertService.success("Game has been " + ((this.isGameRunning) ? "started" : "stopped") + " successfully");
+              this.isGameRunning = (actionStart === m.action);
+              this.alertService.success("Tournament has been " + ((this.isGameRunning) ? "started" : "stopped") + " successfully");
             }
             else {
               this.alertService.error("Problem :  " + m.data.error);

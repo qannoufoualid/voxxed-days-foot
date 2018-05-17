@@ -85,7 +85,7 @@ const appRoutes: Routes = [
     ServerSocketService,
     AuthenticationService,
     AdminService,
-    UtilsService,,
+    UtilsService,
     MappingConfigurationService,
     CanActivateViaAuthGuard,
     AlertService,

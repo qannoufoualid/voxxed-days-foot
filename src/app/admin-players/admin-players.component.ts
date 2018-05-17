@@ -20,11 +20,13 @@ import { AlertService } from '../shared/services/alert.service';
   styleUrls: ['./admin-players.component.css']
 })
 export class AdminPlayersComponent implements OnInit {
-    
-  private players : Player[];
+     
+  players : Player[];
   private socketSubscription: Subscription;
   private items = [];
   private itemCount = 0;
+  filter : string;
+  p: number = 1;
 
   constructor(private alertService : AlertService,private adminService: AdminService, private serverSocket : ServerSocketService, private utilsService : UtilsService, private mappingConfigurationService : MappingConfigurationService) {
     this.adminService.getPlayers().subscribe( players => {

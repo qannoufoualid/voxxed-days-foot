@@ -1,37 +1,37 @@
-<div class="container">
-    <div class="row">
-      <div class="col-sm floater">
-          <label for="search" style="margin-right:40px">Rechercher :</label>
-      </div>
-      <div class="col-sm floater">
-          <input class="form-control" type="text" name="search" [(ngModel)]="filter">
-      </div>
-    </div>
-    <div class='row'> 
-      <table class="table table-striped table-dark" >
-          <thead>
-            <tr>
-              <th scope="col">Email</th>
-              <th scope="col">First Name</th>
-              <th scope="col">Last Name</th>
-              <th scope="col">Add Life</th>
-            </tr>
-          </thead>
-          <tbody>
-              <tr *ngFor="let player of players | filter:filter | paginate: { itemsPerPage: 9, currentPage: p }">
-                  <td>
-                    {{player.mail}}
-                  </td>
-                  <td>
-                    {{player.firstName}}
-                  </td>
-                  <td>
-                    {{player.lastName}}
-                  </td>
-                  <td><button *ngIf="player.maxHealth < 5" class="btn-success" (click)='setMaxHealth(player)'>+</button></td>
-                </tr>
-          </tbody>
-          <pagination-controls (pageChange)="p = $event"></pagination-controls>
-        </table>
-    </div>
+<div class="row">
+  <div class="col-sm floater">
+    <label for="search" style="margin-right:40px">Rechercher :</label>
   </div>
+  <div class="col-sm floater">
+    <input class="form-control" type="text" name="search" [(ngModel)]="filter">
+  </div>
+</div>
+<div class='row'>
+  <table class="table table-striped table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Email</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Add Life</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let player of players | filter:filter | paginate: { itemsPerPage: 9, currentPage: p }">
+        <td>
+          {{player.mail}}
+        </td>
+        <td>
+          {{player.firstName}}
+        </td>
+        <td>
+          {{player.lastName}}
+        </td>
+        <td>
+          <button *ngIf="player.maxHealth < 5" class="btn-success" (click)='setMaxHealth(player)'>+</button>
+        </td>
+      </tr>
+    </tbody>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </table>
+</div>

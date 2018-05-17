@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
     this.authenticationService.authenticate(this.user,
       (message) =>{
         // store username and jwt token in local storage to keep user logged in between page refreshes
-        //TODO Token
         localStorage.setItem('currentUser', JSON.stringify(this.user));
         localStorage.setItem('token', message.token);
         //Route the user to the admin page

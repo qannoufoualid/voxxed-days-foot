@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { Router} from '@angular/router';
+import { AdminService } from '../shared/services/admin.service';
 
 /**
  * component to handle the header of the administration part.
@@ -12,13 +13,18 @@ import { Router} from '@angular/router';
 })
 export class AdminHeaderComponent implements OnInit {
 
-  constructor(private authenticationService : AuthenticationService,  private router: Router) { }
+  hidden : boolean = false;
+
+  constructor(private authenticationService : AuthenticationService,  private router: Router, private adminService : AdminService) { }
 
   ngOnInit() {
+    this.adminService.isHiddingHeader.subscribe( hide => {
+      console.log(hide);
+      this.hidden = hide;
+    });
   }
 
   logout(){
-   
     this.authenticationService.logout();
     this.router.navigate(['/login']);
     localStorage.removeItem("currentUser");

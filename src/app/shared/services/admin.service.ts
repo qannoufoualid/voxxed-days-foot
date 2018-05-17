@@ -13,6 +13,7 @@ import { MappingConfigurationService } from './mapping-configuration.service';
 import { Status } from '../../bo/status.enum';
 import { AlertService } from './alert.service';
 import { LoaderService } from './loader.service';
+import { Subject } from 'rxjs';
 
 /**
  * Service to handle the data of the administration part of the appalication.
@@ -20,6 +21,8 @@ import { LoaderService } from './loader.service';
 @Injectable()
 export class AdminService {
 
+  private _isHiddingHeaderSubject : Subject<boolean>;
+  private _isHiddingHeader : boolean;
   // The list of playersto display.
   private players : BehaviorSubject<Player[]>;
   // The subscription to the socket.
@@ -27,6 +30,7 @@ export class AdminService {
   
   constructor(private serverSocket: ServerSocketService, private mappingConfigurationService : MappingConfigurationService,private router: Router, private authenticationService : AuthenticationService, private utilsService : UtilsService, private alertService : AlertService, private loaderService : LoaderService) { 
 
+    this._isHiddingHeaderSubject = new BehaviorSubject<boolean>(this._isHiddingHeader);
     this.players = new BehaviorSubject<Player[]>([]);
     
     //Send a message to the backend to get the list of players.
@@ -66,15 +70,29 @@ export class AdminService {
       } else if (a.score > b.score) {
         return -1;
       } else {
-        return 0;
+        if (a.games < b.games) {
+          return -1;
+        } else if (a.games > b.games) {
+          return 1;
+        } else {
+          return 0;
+        }
       }
     });
+    
     let i = 1;
     newValue.forEach(player => player.rank = i++);
     this.players.next(newValue);
   }
 
+  public switchHeaderHideState(){
+    this._isHiddingHeader = !this._isHiddingHeader;
+    this._isHiddingHeaderSubject.next(this._isHiddingHeader);
+  }
 
-
+  get isHiddingHeader() : Subject<boolean>
+  {
+    return this._isHiddingHeaderSubject;
+  }
 
 }

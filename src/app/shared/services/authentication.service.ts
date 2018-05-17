@@ -10,6 +10,7 @@ import { MappingConfigurationService } from './mapping-configuration.service';
 import { Action } from '../../bo/action.enum';
 import { Status } from '../../bo/status.enum';
 import { LoaderService } from './loader.service';
+import { AlertService } from './alert.service';
 
 /**
  * Service of authentication.
@@ -19,10 +20,27 @@ export class AuthenticationService implements OnDestroy {
 
     // The authentication subscription to the websocket.
     private socketSubscription: Subscription;
+    // The token subscription
+    private tokenSubscription: Subscription;
+    //To know if the user is connected.
     private _isConnected: boolean = false;
 
-    constructor(private serverSocket: ServerSocketService, private loaderService: LoaderService, private router: Router, private utilsService: UtilsService, private mappingConfigurationService: MappingConfigurationService) {
+    constructor(private serverSocket: ServerSocketService, private loaderService: LoaderService, private router: Router, private utilsService: UtilsService, private mappingConfigurationService: MappingConfigurationService, private alertService : AlertService) {
 
+        if (this.tokenSubscription == null)
+            this.tokenSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
+
+                if (this.utilsService.isJson(message) && message != null) {
+                    let m = JSON.parse(message);
+                    if(m.data['error'] && m.data['error'].indexOf('token') > -1){
+                        this.logout();
+                        this.router.navigate(['/login']);
+                        localStorage.removeItem("currentUser");
+                        localStorage.removeItem("token");
+                    }
+                        
+                }
+            });
     }
 
     /**
@@ -33,7 +51,6 @@ export class AuthenticationService implements OnDestroy {
      */
     public authenticate(user: User, callback: (response: Message) => void, errorCallback: (error: string) => void) {
         this.loaderService.show();
-
         if(!this.serverSocket.isSocketCreated())
             this.serverSocket.connect();
         let m: Message = new Message(null, Action.AUTHENTICATE, { "mail": user.mail, "password": user.password });
@@ -41,7 +58,7 @@ export class AuthenticationService implements OnDestroy {
 
         if (this.socketSubscription == null)
             this.socketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
-
+                console.log('holla');
                 if (this.utilsService.isJson(message) && message != null) {
                     let m: Message = JSON.parse(message);
                     let action = this.mappingConfigurationService.getActionName(Action.AUTHENTICATE_RESPONSE);
