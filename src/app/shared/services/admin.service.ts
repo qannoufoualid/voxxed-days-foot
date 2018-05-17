@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit, Injectable, OnDestroy } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription'
 import { Observable } from 'rxjs/Observable'
@@ -19,7 +19,7 @@ import { Subject } from 'rxjs';
  * Service to handle the data of the administration part of the appalication.
  */
 @Injectable()
-export class AdminService {
+export class AdminService implements OnDestroy {
 
   private _isHiddingHeaderSubject : Subject<boolean>;
   private _isHiddingHeader : boolean;
@@ -93,6 +93,12 @@ export class AdminService {
   get isHiddingHeader() : Subject<boolean>
   {
     return this._isHiddingHeaderSubject;
+  }
+
+  ngOnDestroy() 
+  {
+    if(this.socketSubscription != null)
+     this.socketSubscription.unsubscribe();
   }
 
 }

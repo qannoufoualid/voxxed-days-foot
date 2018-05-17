@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ServerSocketService } from '../shared/services/server-socket.service';
 import { Message } from '../bo/message';
@@ -13,10 +13,11 @@ import { AlertService } from '../shared/services/alert.service';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit,  OnDestroy  {
 
   private broadcastSocketSubscription: Subscription;
   private gameStateSocketSubscription: Subscription;
+  private lastSystemMessageSocketSubscription : Subscription;
   message: string;
   lastMessage : string;
   private isGameRunning: boolean = false;
@@ -24,6 +25,16 @@ export class GameComponent implements OnInit {
   constructor(private serverSocket: ServerSocketService, private utilsService: UtilsService, private mappingConfigurationService: MappingConfigurationService, private alertService: AlertService) { }
 
   ngOnInit() {
+    if (this.lastSystemMessageSocketSubscription == null)
+      this.lastSystemMessageSocketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
+        if (this.utilsService.isJson(message) && message != null) {
+          let m: Message = JSON.parse(message);
+          if(m.data['systemMessage'])
+          {
+            this.lastMessage = m.data['systemMessage'];
+          }
+        }
+      });
   }
 
   broadcast() {
@@ -90,4 +101,14 @@ export class GameComponent implements OnInit {
         }
       });
   }
+
+  ngOnDestroy() 
+  {
+    this.lastSystemMessageSocketSubscription.unsubscribe();
+    if(this.gameStateSocketSubscription != null)
+       this.gameStateSocketSubscription.unsubscribe();
+    if(this.broadcastSocketSubscription != null)
+      this.broadcastSocketSubscription.unsubscribe();
+  }
+  
 }

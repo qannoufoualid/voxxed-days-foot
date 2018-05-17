@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { ServerSocketService } from './server-socket.service';
 import { Subscription } from 'rxjs/Subscription';
 import { UtilsService } from './utils.service';
@@ -10,7 +10,7 @@ import { Status } from '../../bo/status.enum';
  * The service that extracts the info about the mapping configuration.
  */
 @Injectable()
-export class MappingConfigurationService {
+export class MappingConfigurationService implements OnDestroy {
 
   // the websocketSubscription.
   private socketSubscription: Subscription;
@@ -49,6 +49,11 @@ export class MappingConfigurationService {
      return this.config != null;
    }
 
+   ngOnDestroy() 
+  {
+    if(this.socketSubscription != null)
+      this.socketSubscription.unsubscribe();
+  }
    
    
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Player } from '../bo/player';
 import { AdminService } from '../shared/services/admin.service';
 import { ServerSocketService } from '../shared/services/server-socket.service';
@@ -19,7 +19,7 @@ import { AlertService } from '../shared/services/alert.service';
   templateUrl: './admin-players.component.html',
   styleUrls: ['./admin-players.component.css']
 })
-export class AdminPlayersComponent implements OnInit {
+export class AdminPlayersComponent implements OnInit, OnDestroy {
      
   players : Player[];
   private socketSubscription: Subscription;
@@ -70,6 +70,12 @@ export class AdminPlayersComponent implements OnInit {
             }
         });
 
+  }
+
+  ngOnDestroy() 
+  {
+    if(this.socketSubscription != null)
+     this.socketSubscription.unsubscribe();
   }
 
 }

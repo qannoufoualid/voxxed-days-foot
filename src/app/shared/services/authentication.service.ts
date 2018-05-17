@@ -58,7 +58,6 @@ export class AuthenticationService implements OnDestroy {
 
         if (this.socketSubscription == null)
             this.socketSubscription = this.serverSocket.getRecievedMessage().subscribe((message: string) => {
-                console.log('holla');
                 if (this.utilsService.isJson(message) && message != null) {
                     let m: Message = JSON.parse(message);
                     let action = this.mappingConfigurationService.getActionName(Action.AUTHENTICATE_RESPONSE);
@@ -90,7 +89,10 @@ export class AuthenticationService implements OnDestroy {
     }
 
     ngOnDestroy() {
-        console.log('authService Destroyed');
+        if(this.socketSubscription != null)
+            this.socketSubscription.unsubscribe();
+        if(this.socketSubscription != null)
+            this.tokenSubscription.unsubscribe();
     }
 
 }

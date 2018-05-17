@@ -51,7 +51,7 @@ const appRoutes: Routes = [
     component: LoginComponent
   },
   { path: '',
-    redirectTo: '/admin',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   { path: '**', component: PageNotFoundComponent }

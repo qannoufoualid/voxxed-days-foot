@@ -54,7 +54,8 @@ export class ServerSocketService implements OnDestroy {
     // the websocket connection is created lazily when the messages observable is
     // subscribed to
     this.socketSubscription = this.messages.subscribe((message: string) => {
-      console.log("<--- Recieved : " + message);
+      if(!(environment.production))
+        console.log("<--- Recieved : " + message);
       this.receivedMessage.next(message);
     }, err => this.alertService.error("Technical error."));
 
@@ -66,18 +67,18 @@ export class ServerSocketService implements OnDestroy {
    */
   public send(message: Message): void {
     //We add the token.
+    
     let token = localStorage.getItem('token');
     message.token = token;
-    console.log("---> Sending : ");
-    console.log(message);
+    if(!(environment.production)){
+      console.log("---> Sending : ");
+      console.log(message);
+    }
+      
     this.inputStream.next(JSON.stringify(message))
   }
 
   public disconnect() {
-    this.socketSubscription.unsubscribe();
-  }
-
-  ngOnDestroy() {
     this.socketSubscription.unsubscribe();
   }
 
@@ -91,6 +92,11 @@ export class ServerSocketService implements OnDestroy {
 
   public isSocketCreated() : boolean{
       return !this.socketSubscription.closed;
+  }
+
+  ngOnDestroy() {
+    if(this.socketSubscription==null)
+     this.socketSubscription.unsubscribe();
   }
 
 }

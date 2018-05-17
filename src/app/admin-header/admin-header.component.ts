@@ -19,7 +19,6 @@ export class AdminHeaderComponent implements OnInit {
 
   ngOnInit() {
     this.adminService.isHiddingHeader.subscribe( hide => {
-      console.log(hide);
       this.hidden = hide;
     });
   }
