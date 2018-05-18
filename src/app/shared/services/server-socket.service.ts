@@ -6,12 +6,13 @@ import websocketConnect from 'rxjs-websockets'
 import { Subscription } from 'rxjs/Subscription'
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import Connection from 'rxjs-websockets'
-import 'rxjs/add/operator/share'
 import { Player } from '../../bo/player';
 import { User } from '../../bo/user';
 import { Message } from '../../bo/message';
 import { AlertService } from './alert.service';
 import { environment } from '../../../environments/environment';
+import { UtilsService } from './utils.service';
+import 'rxjs/add/operator/share'
 
 /**
  * The service that handle the communication with the backend via websockets.
@@ -31,6 +32,7 @@ export class ServerSocketService implements OnDestroy {
    * The received message
    */
   public receivedMessage: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  
   /**
    * The url of the backend.
    */
@@ -40,7 +42,7 @@ export class ServerSocketService implements OnDestroy {
    */
   private socketSubscription: Subscription;
 
-  constructor(private alertService: AlertService) {
+  constructor(private alertService: AlertService, private utils : UtilsService) {
   }
 
   public connect() {
@@ -54,8 +56,7 @@ export class ServerSocketService implements OnDestroy {
     // the websocket connection is created lazily when the messages observable is
     // subscribed to
     this.socketSubscription = this.messages.subscribe((message: string) => {
-      if(!(environment.production))
-        console.log("<--- Recieved : " + message);
+      this.utils.log("<--- Recieved : " + message);
       this.receivedMessage.next(message);
     }, err => this.alertService.error("Technical error."));
 
@@ -67,14 +68,10 @@ export class ServerSocketService implements OnDestroy {
    */
   public send(message: Message): void {
     //We add the token.
-    
     let token = localStorage.getItem('token');
     message.token = token;
-    if(!(environment.production)){
-      console.log("---> Sending : ");
-      console.log(message);
-    }
-      
+    this.utils.log("---> Sending : ");
+    this.utils.log(message);
     this.inputStream.next(JSON.stringify(message))
   }
 
@@ -98,5 +95,4 @@ export class ServerSocketService implements OnDestroy {
     if(this.socketSubscription==null)
      this.socketSubscription.unsubscribe();
   }
-
 }

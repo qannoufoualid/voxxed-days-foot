@@ -1,4 +1,6 @@
-# MyApp
+# voxxed-days-foot
+
+The aim of the project is to allow Sfeir Benelux to manage a Digital Soccer Game intended for visitors of the voxxed days event.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.4.
 
