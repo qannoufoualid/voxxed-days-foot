@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: backoffice-deployment
+  labels:
+    app: backoffice-sfeir-foot
+
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: backoffice-sfeir-foot
+        tier: worker
+    spec:
+      containers:
+      - name: backoffice
+
+        image: eu.gcr.io/sfeirfootvoxxeddays/image-backoffice
+
+        # This setting makes nodes pull the docker image every time before
+        # starting the pod. This is useful when debugging, but should be turned
+        # off in production.
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+        - name: PROJECT_ID
+          value: sfeirfootvoxxeddays

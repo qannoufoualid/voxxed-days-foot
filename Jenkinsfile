@@ -1,14 +1,20 @@
 pipeline {
   agent {
-    dockerfile {
-      filename 'Dockerfile'
+    docker {
+      image 'google/cloud-sdk:latest'
     }
     
   }
   stages {
-    stage('Init') {
+    stage('Build Image') {
+      agent {
+        docker {
+          image 'google/cloud-sdk'
+        }
+        
+      }
       steps {
-        echo 'Init the project'
+        sh 'docker build -t backoffice:1.1 .'
       }
     }
   }
