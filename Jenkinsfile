@@ -14,7 +14,13 @@ pipeline {
         
       }
       steps {
-        sh 'docker build -t backoffice:1.1 .'
+        sh '''gcloud auth activate-service-account --key-file=credentials
+gcloud config set project sfeirfootvoxxeddays
+gcloud container clusters get-credentials sfeir-voxxed-days --zone=europe-west1-c
+docker image build -t eu.gcr.io/sfeirfootvoxxeddays/image-backofficeservice: .
+kubectl delete -f backofficeDeployment.yaml
+kubectl create -f backofficeDeployment.yaml
+kubectl set image deployment backoffice-deployment backoffice=image-backofficeservice'''
       }
     }
   }
