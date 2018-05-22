@@ -23,7 +23,4 @@ pipeline {
         }
     }
 
-    stage('Push image') {
-        
-    }
 }
