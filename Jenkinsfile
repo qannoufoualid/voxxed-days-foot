@@ -6,7 +6,7 @@ pipeline {
     
   }
   stages {
-    stage('Build Image') {
+    stage('Build & Deploy') {
       agent {
         docker {
           image 'google/cloud-sdk'
