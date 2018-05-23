@@ -6,7 +6,7 @@ pipeline {
     
   }
   stages {
-    stage('Build & Deploy') {
+    stage('Build & Deploy BackOffice') {
       agent {
         docker {
           image 'google/cloud-sdk'
@@ -17,11 +17,13 @@ pipeline {
         sh '''gcloud auth activate-service-account --key-file=credentials
 gcloud config set project sfeirfootvoxxeddays
 gcloud container clusters get-credentials sfeir-voxxed-days --zone=europe-west1-c
+echo "Y" | gcloud auth configure-docker
 rev=$(git rev-parse HEAD)
 docker image build -t eu.gcr.io/sfeirfootvoxxeddays/image-backofficeservice:$rev .
-kubectl delete -f backofficeDeployment.yaml
-kubectl create -f backofficeDeployment.yaml
-kubectl set image deployment backoffice-deployment backoffice=image-backofficeservice:1.0'''
+docker image push eu.gcr.io/sfeirfootvoxxeddays/image-backofficeservice:$rev
+docker image rm -f eu.gcr.io/sfeirfootvoxxeddays/image-backofficeservice:$rev
+kubectl apply -f backofficeDeployment.yaml
+kubectl set image deployment backoffice-deployment backoffice=image-backofficeservice:$rev'''
       }
     }
   }
